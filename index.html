@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Test by Tonima</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ff3385;
+            --secondary-color: #ff99cc;
+            --accent-color: #ff0066;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe6eb 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 51, 133, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 24 24" fill="%23ff3385" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            opacity: 0.1;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #fffafb;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 51, 133, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        input {
+            flex: 1 1 200px;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 30px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .result-container {
+            margin-top: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .result-container.active {
+            max-height: 600px;
+        }
+
+        .result-box {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 51, 133, 0.1);
+            margin: 1rem 0;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        #loveLetterPreview {
+            background: linear-gradient(135deg, #fff0f4 0%, #ffe6eb 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px solid var(--secondary-color);
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+            font-size: 1.5rem;
+            line-height: 1.6;
+        }
+
+        #loveLetterPreview b {
+            font-size: 1.8rem;
+            display: block;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            #loveLetterPreview {
+                width: 100%;
+                height: auto;
+                min-height: 300px;
+                font-size: 1.2rem;
+                padding: 1.5rem;
+            }
+
+            #loveLetterPreview b {
+                font-size: 1.4rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><a href="https://storybytonima.blogspot.com" style="color: inherit; text-decoration: none;">💞 Love Test by Tonima 💞</a></h1>
+
+        <!-- Love Calculator -->
+        <div class="section">
+            <h2>💘 Love Percentage Calculator</h2>
+            <div class="input-group">
+                <input type="text" id="name1" placeholder="Your name">
+                <input type="text" id="name2" placeholder="Partner's name">
+            </div>
+            <button onclick="calculateLove()">Test True Love</button>
+            <div class="result-container" id="loveContainer">
+                <div class="result-box">
+                    <div id="loveResult"></div>
+                    <div class="toolbar">
+                        <button onclick="copyResult('loveResult')">📋 Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Baby Name Generator -->
+        <div class="section">
+            <h2>👶 Dream Baby Name Generator</h2>
+            <div class="input-group">
+                <input type="text" id="parent1" placeholder="Parent 1 name">
+                <input type="text" id="parent2" placeholder="Parent 2 name">
+            </div>
+            <button onclick="generateBabyName()">Create Magic</button>
+            <div class="result-container" id="babyContainer">
+                <div class="result-box">
+                    <div id="babyResult"></div>
+                    <div class="toolbar">
+                        <button onclick="copyResult('babyResult')">📋 Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Letter Generator -->
+        <div class="section">
+            <h2>💌 Secret Love Letter Creator</h2>
+            <div class="input-group">
+                <input type="text" id="sender" placeholder="Your name">
+                <input type="text" id="receiver" placeholder="Crush's name">
+            </div>
+            <button onclick="generateLoveLetter()">Write My Heart</button>
+            <div class="result-container" id="letterContainer">
+                <div class="result-box">
+                    <div id="loveLetterPreview">
+                        <div id="letterResult"></div>
+                    </div>
+                    <div class="toolbar">
+                        <button onclick="copyResult('letterResult')">📋 Copy</button>
+                        <button onclick="downloadLetter()">📩 Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 2rem; color: var(--primary-color);">
+        <p>Powered ⚡ by <a href="https://www.khubaybhossain.com" style="color: var(--accent-color);">Khubayb Hossain</a></p>
+    </footer>
+
+    <script>
+        // Love Calculator
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value || "Anonymous";
+            const name2 = document.getElementById('name2').value || "Anonymous";
+            const percentage = Math.floor(Math.random() * 41) + 60;
+            document.getElementById('loveResult').innerHTML = 
+                `✨ ${name1} & ${name2}'s Eternal Love: <span style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--accent-color')};">${percentage}%</span> ✨`;
+            toggleContainer('loveContainer');
+        }
+
+        // Baby Name Generator
+        function generateBabyName() {
+            const parent1 = document.getElementById('parent1').value || "Parent1";
+            const parent2 = document.getElementById('parent2').value || "Parent2";
+            const combined = parent1.slice(0, Math.ceil(parent1.length/2)) + 
+                           parent2.slice(Math.floor(parent2.length/2));
+            document.getElementById('babyResult').innerHTML = 
+                `👼 Your Dream Child's Name: <span style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--primary-color')};">${combined}</span> 👼`;
+            toggleContainer('babyContainer');
+        }
+
+        // Love Letter Generator
+        function generateLoveLetter() {
+            const sender = document.getElementById('sender').value || "Your Secret Admirer";
+            const receiver = document.getElementById('receiver').value || "Beloved";
+            const templates = [
+                `My Dearest ${receiver},<br><br>From the moment our eyes met, I knew my heart had found its forever home in yours. Every day with you feels like a page from a fairy tale...<br><br>Forever yours,<br><b>${sender}</b>`,
+                `Dear ${receiver},<br><br>Your laughter is my favorite melody, your smile my daily sunshine. I can't imagine my life without you...<br><br>With all my love,<br><b>${sender}</b>`,
+                `To My Sweet ${receiver},<br><br>In your arms I've found my paradise, in your heart I've discovered eternity. You complete me in ways I never thought possible...<br><br>Yours always,<br><b>${sender}</b>`
+            ];
+            document.getElementById('letterResult').innerHTML = templates[Math.floor(Math.random() * templates.length)];
+            toggleContainer('letterContainer');
+        }
+
+        // Utility Functions
+        function toggleContainer(containerId) {
+            const container = document.getElementById(containerId);
+            container.classList.toggle('active');
+        }
+
+        function copyResult(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Copied to clipboard!');
+            });
+        }
+
+        function downloadLetter() {
+            const preview = document.getElementById('loveLetterPreview');
+            const originalStyles = {
+                fontSize: preview.style.fontSize,
+                lineHeight: preview.style.lineHeight
+            };
+
+            // Apply download-specific styles
+            preview.style.fontSize = '2rem';
+            preview.style.lineHeight = '1.8';
+            preview.style.width = '600px';
+            preview.style.height = '600px';
+
+            html2canvas(preview, {
+                scale: 2,
+                windowWidth: 600,
+                windowHeight: 600,
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'romantic-letter.png';
+                link.href = canvas.toDataURL();
+                link.click();
+
+                // Reset styles after download
+                preview.style.fontSize = originalStyles.fontSize;
+                preview.style.lineHeight = originalStyles.lineHeight;
+                preview.style.width = '';
+                preview.style.height = '';
+            });
+        }
+    </script>
+</body>
+</html>
