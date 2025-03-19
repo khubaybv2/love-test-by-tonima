@@ -98,7 +98,7 @@
         }
 
         .result-container.active {
-            max-height: 600px;
+            max-height: 1000px;
         }
 
         .result-box {
@@ -108,13 +108,16 @@
             position: relative;
             box-shadow: 0 4px 15px rgba(255, 51, 133, 0.1);
             margin: 1rem 0;
+            padding-bottom: 80px; /* Space for buttons */
         }
 
         .toolbar {
             display: flex;
             gap: 0.5rem;
-            margin-top: 1rem;
-            justify-content: flex-end;
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            z-index: 2;
         }
 
         #loveLetterPreview {
@@ -128,10 +131,11 @@
             justify-content: center;
             border: 2px solid var(--secondary-color);
             width: 600px;
-            height: 600px;
+            height: auto;
             margin: 0 auto;
             font-size: 1.5rem;
             line-height: 1.6;
+            overflow: visible;
         }
 
         #loveLetterPreview b {
@@ -155,6 +159,20 @@
 
             .container {
                 padding: 1rem;
+            }
+
+            .toolbar {
+                position: static;
+                justify-content: center;
+                margin-top: 1.5rem;
+            }
+            
+            .toolbar button {
+                width: 100%;
+            }
+            
+            .result-box {
+                padding-bottom: 1.5rem;
             }
         }
     </style>
@@ -275,14 +293,9 @@
 
         function downloadLetter() {
             const preview = document.getElementById('loveLetterPreview');
-            const originalStyles = {
-                fontSize: preview.style.fontSize,
-                lineHeight: preview.style.lineHeight
-            };
-
-            // Apply download-specific styles
-            preview.style.fontSize = '2rem';
-            preview.style.lineHeight = '1.8';
+            const originalZIndex = preview.style.zIndex;
+            
+            preview.style.zIndex = "9999"; /* Bring to front during capture */
             preview.style.width = '600px';
             preview.style.height = '600px';
 
@@ -298,8 +311,7 @@
                 link.click();
 
                 // Reset styles after download
-                preview.style.fontSize = originalStyles.fontSize;
-                preview.style.lineHeight = originalStyles.lineHeight;
+                preview.style.zIndex = originalZIndex;
                 preview.style.width = '';
                 preview.style.height = '';
             });
